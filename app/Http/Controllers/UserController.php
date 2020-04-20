@@ -18,11 +18,13 @@ class UserController extends Controller
 
         foreach (User::all() as $p) {
             $item = [
-                "id"          => $p->id,
-                "name"        => $p->name,
-                "email"    	  => $p->email,
-                "created_at"  => $p->created_at,
-                "updated_at"  => $p->updated_at
+                "id"          		=> $p->id,
+                "phone"       		=> $p->phone,
+                "name"        		=> $p->name,
+                "email"    	  		=> $p->email,
+                "profile_picture"	=> $p->profile_picture,
+                "created_at"  		=> $p->created_at,
+                "updated_at"  		=> $p->updated_at
             ];
 
             array_push($user, $item);
@@ -38,11 +40,13 @@ class UserController extends Controller
 
         foreach (User::take($limit)->skip($offset)->get() as $p) {
             $item = [
-                "id"          => $p->id,
-                "name"        => $p->name,
-                "email"    	  => $p->email,
-                "created_at"  => $p->created_at,
-                "updated_at"  => $p->updated_at
+                "id"          		=> $p->id,
+                "phone"        		=> $p->phone,
+                "name"        		=> $p->name,
+                "email"    	  		=> $p->email,
+                "profile_picture"	=> $p->profile_picture,
+                "created_at"  		=> $p->created_at,
+                "updated_at"  		=> $p->updated_at
             ];
             array_push($user, $item);
         }
@@ -106,9 +110,11 @@ class UserController extends Controller
 		}
 
 		$user = new User();
-		$user->name 	= $request->name;
-		$user->email 	= $request->email;
-		$user->password = Hash::make($request->password);
+		$user->name 			= $request->name;
+		$user->phone 			= $request->phone;
+		$user->email 			= $request->email;
+		$user->profile_picture 	= $request->profile_picture;
+		$user->password		 	= Hash::make($request->password);
 		$user->save();
 
 		$token = JWTAuth::fromUser($user);
@@ -122,32 +128,20 @@ class UserController extends Controller
 
 	public function update(Request $request)
 	{
-		$validator = Validator::make($request->all(), [
-			'name' => 'required|string|max:255',
-			'email' => 'required|string|email|max:255',
-			'password' => 'required|string|min:6',
-			
-		]);
-
-		if($validator->fails()){
-			return response()->json([
-				'status'	=> '0',
-				'message'	=> $validator->errors()
-			]);
-		}
-
 		//proses update data
 		$user = User::where('id', $request->id)->first();
-		$user->name 	= $request->name;
-		$user->email 	= $request->email;
+		$user->name 			= $request->name;
+		$user->email 			= $request->email;
+		$user->phone 			= $request->phone;
+		$user->profile_picture 	= $request->profile_picture;
 		
-		$user->password = Hash::make($request->password);
+		$user->password 		= Hash::make($request->password);
 		$user->save();
 
 
 		return response()->json([
 			'status'	=> '1',
-			'message'	=> 'Petugas berhasil diubah'
+			'message'	=> 'Admin berhasil diubah'
 		], 201);
 	}
 
