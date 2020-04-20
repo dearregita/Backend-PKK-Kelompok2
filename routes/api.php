@@ -11,14 +11,14 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 	Route::delete('admin/{id}', "LoginController@delete"); //delete petugas
 
 	Route::get('siswa', "SiswaController@index"); //read siswa
-	Route::get('siswa/{limit}/{offset}', "SiswaController@getAll"); //read siswa
 	Route::post('siswa', 'SiswaController@store'); //create siswa
+	Route::get('siswa/{limit}/{offset}', "SiswaController@getAll"); //read siswa
 	Route::put('siswa/{id}', "SiswaController@update"); //update siswa
 	Route::delete('siswa/{id}', "SiswaController@delete"); //delete siswa
 	
 	Route::get('guru', "GuruController@index"); //read guru
-	Route::get('guru/{limit}/{offset}', "GuruController@getAll"); //read guru
 	Route::post('guru', 'GuruController@store'); //create guru
+	Route::get('guru/{limit}/{offset}', "GuruController@getAll"); //read guru
 	Route::put('guru/{id}', "GuruController@update"); //update guru
 	Route::delete('guru/{id}', "GuruController@delete"); //delete guru
 	

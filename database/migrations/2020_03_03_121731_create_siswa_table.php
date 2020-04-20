@@ -16,9 +16,12 @@ class CreateSiswaTable extends Migration
         Schema::create('siswa', function (Blueprint $table){
             $table->bigIncrements('id');
             $table->string('nis')->unique();
+            $table->string('email')->unique();
             $table->string('nama_siswa');
             $table->string('kelas');
             $table->string('sekolah');
+            $table->string('kategori');
+            $table->string('password');
             $table->timestamps();
         });
     }

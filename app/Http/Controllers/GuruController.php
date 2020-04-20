@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Guru;
 use Illuminate\Http\Request;
-use App\Guru;   
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class GuruController extends Controller
 {
@@ -76,6 +79,8 @@ class GuruController extends Controller
     			'nama_guru'       => 'required|string|max:255',
 				'email'			  => 'required|string|max:255|unique:Guru',
 				'sekolah'		  => 'required|string|max:255',
+				'kategori'		  => 'required|string|max:255',
+				'password'		  => 'required|string|max:255',
     		]);
 
     		if($validator->fails()){
@@ -85,11 +90,13 @@ class GuruController extends Controller
     			]);
     		}
 
-    		$data = new Guru();
-	        $data->nama_guru = $request->input('nama_guru');
-	        $data->email = $request->input('email');
-	        $data->sekolah = $request->input('sekolah');
-	        $data->save();
+    		$guru = new Guru();
+	        $guru->nama_guru = $request->input('nama_guru');
+	        $guru->email = $request->input('email');
+	        $guru->sekolah = $request->input('sekolah');
+	        $guru->kategori = $request->input('kategori');
+	        $guru->password = Hash::make($request->input('password'));
+			$guru->save();
 
     		return response()->json([
     			'status'	=> '1',
@@ -108,19 +115,6 @@ class GuruController extends Controller
     public function update(Request $request, $id)
     {
       try {
-      	$validator = Validator::make($request->all(), [
-			'nama_guru'       => 'required|string|max:255',
-			'email'			  => 'required|string|max:255|unique:Guru',
-			'sekolah'		  => 'required|string|max:255',
-		]);
-
-      	if($validator->fails()){
-      		return response()->json([
-      			'status'	=> '0',
-      			'message'	=> $validator->errors()
-      		]);
-      	}
-
       	//proses update data
       	$data = Guru::where('id', $id)->first();
         $data->nama_guru = $request->input('nama_guru');
@@ -139,7 +133,7 @@ class GuruController extends Controller
               'message' => $e->getMessage()
           ]);
       }
-    }
+	}
 
     public function delete($id)
     {

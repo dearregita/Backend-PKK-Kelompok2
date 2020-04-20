@@ -18,6 +18,8 @@ class CreateGuruTable extends Migration
             $table->string('email')->unique();
             $table->string('nama_guru');
             $table->string('sekolah');
+            $table->string('kategori');
+            $table->string('password');
             $table->timestamps();
         });
     }

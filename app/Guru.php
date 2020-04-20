@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Guru extends Model
+class Picture extends Model
 {
     protected $table="guru";
 }
